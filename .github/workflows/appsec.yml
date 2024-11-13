@@ -27,18 +27,18 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: frontend/package.json
-      - name: Checkout Joe's Script
+      - name: Checkout Prioritization Script
         uses: actions/checkout@v4
         with:
           repository: joeshope/sarif_script
 
-      - name: Cache Node modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      #- name: Cache Node modules
+      #  uses: actions/cache@v4
+      #  with:
+      #    path: ~/.npm
+      #    key: juice-shop-node-${{ hashFiles('**/package-lock.json') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-node-
     #  - run: npm install --package-lock-only
       - run: npm install
       - run: npm i -g snyk
