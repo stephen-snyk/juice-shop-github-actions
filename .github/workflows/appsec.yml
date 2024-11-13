@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: frontend/package.json
+          cache-dependency-path: frontend/package.json, package.json
       - name: Checkout Prioritization Script
         uses: actions/checkout@v4
         with:
