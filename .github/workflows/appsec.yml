@@ -53,15 +53,12 @@ jobs:
      # - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
      #   run: |  
           #snyk code test --sarif  > results.sarif || true
-      - name: Checkout Prioritization Script
-        uses: actions/checkout@v4
-        with:
-          repository: joeshope/sarif_script
+     # - name: Checkout Prioritization Script
+     #   uses: actions/checkout@v4
+     #   with:
+     #     repository: joeshope/sarif_script
       - name: Change Severity
-        run: pwd
-             cp example.py ../juice-shop-github-actions
-             cd ./juice-shop-github-actions
-             python example.py --file opensource.sarif
+        run: python example.py --file opensource.sarif
      # - name: Set SARIF file permissions
      #   run: chmod 644 results.sarif
 
