@@ -45,7 +45,10 @@ jobs:
       - name: Snyk Open Source # For testing and failing please add snyk test before snyk monitor
         run: |
           snyk test --all-projects --sarif > opensource.sarif || true
-         # snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
+      - name: Replace security-severity undefined for license-related findings
+        run: | 
+           sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' opensource.sarif
+     #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
      # - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
      #   run: |  
      #      snyk code test --json | snyk-to-html -o results-code.html || true
