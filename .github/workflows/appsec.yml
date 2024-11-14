@@ -58,7 +58,10 @@ jobs:
         with:
           repository: joeshope/sarif_script
       - name: Change Severity
-        run: python example.py --file opensource.sarif
+        run: pwd
+             cp example.py ../juice-shop-github-actions
+             cd ./juice-shop-github-actions
+             python example.py --file opensource.sarif
      # - name: Set SARIF file permissions
      #   run: chmod 644 results.sarif
 
