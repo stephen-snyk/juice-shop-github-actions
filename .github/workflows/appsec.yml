@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: frontend/package.json, package.json
 
       - run: npm install -g @angular/cli@17
-      - run: npm install 
+      - run: npm install --package-lock-only
              cd frontend
              npm install
       - run: npm i -g snyk
