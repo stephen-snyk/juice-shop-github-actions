@@ -42,7 +42,7 @@ jobs:
       #- run: npm install --package-lock-only
       - run: npm install -g @angular/cli@17
       - run: cd juice-shop-github-actions
-              npm install
+      - run: npm install
       #       cd frontend
       #       npm install
       - run: npm i -g snyk
