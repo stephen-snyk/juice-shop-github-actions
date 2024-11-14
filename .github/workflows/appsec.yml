@@ -42,8 +42,8 @@ jobs:
       #- run: npm install --package-lock-only
       - run: npm install -g @angular/cli@17
       - run: npm install
-             cd frontend
-             npm install
+      #       cd frontend
+      #       npm install
       - run: npm i -g snyk
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
