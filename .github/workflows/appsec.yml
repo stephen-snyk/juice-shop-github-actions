@@ -49,9 +49,9 @@ jobs:
         run: | 
            sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' opensource.sarif
      #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
-     # - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
-     #   run: |  
-     #      snyk code test --json | snyk-to-html -o results-code.html || true
+      - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
+        run: |  
+           snyk code test --json | snyk-to-html -o results-code.html || true
 
      # - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
      #   run: |  
@@ -80,11 +80,11 @@ jobs:
       #    docker build . -t freshdemo/juice-shop-bash:latest
       #    snyk container monitor freshdemo/juice-shop-bash:latest --file=Dockerfile --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb
           
-      #- name: Use the Upload Artifact GitHub Action
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: results-code
-      #    path: results-code.html
+      - name: Use the Upload Artifact GitHub Action
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-code
+          path: results-code.html
             
       #- name: Upload Code SARIF file
       #  uses: github/codeql-action/upload-sarif@v3
