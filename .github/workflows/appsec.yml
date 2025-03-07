@@ -30,9 +30,9 @@ jobs:
           #cache-dependency-path: frontend/package.json, package.json
 
       - run: npm install -g @angular/cli@17
-      - run: npm install --package-lock-only
-             cd frontend
-             npm install
+      #- run: npm install --package-lock-only
+      #       cd frontend
+      #       npm install
       - run: npm i -g snyk
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
@@ -53,9 +53,9 @@ jobs:
         run: |  
            snyk code test --json | snyk-to-html -o results-code.html || true
 
-     # - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
-     #   run: |  
-          #snyk code test --sarif  > results.sarif || true
+      - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
+        run: |  
+           snyk code test --sarif  > results.sarif || true
      # - name: Checkout Prioritization Script
      #   uses: actions/checkout@v4
      #   with:
@@ -86,10 +86,10 @@ jobs:
           name: results-code
           path: results-code.html
             
-      #- name: Upload Code SARIF file
-      #  uses: github/codeql-action/upload-sarif@v3
-      #  with:
-      #    sarif_file: results.sarif
+      - name: Upload Code SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
       - name: Upload Open Source SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
