@@ -48,7 +48,7 @@ jobs:
 
       - name: Replace security-severity undefined for license-related findings
         run: | 
-           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' opensource.sarif && cat opensource.sarif
+           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' opensource.sarif
      #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
         run: |  
@@ -57,6 +57,9 @@ jobs:
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
            snyk code test --sarif  > results.sarif || true
+      - name: Replace level note/warning/error for SAST findings
+        run: | 
+           sed -i 's/"level": "note"/"level": "informational"/g' opensource.sarif && sed -i 's/"level": "warning"/"level": "medium"/g' opensource.sarif && sed -i 's/"level": "error"/"level": "high"/g' opensource.sarif
      # - name: Checkout Prioritization Script
      #   uses: actions/checkout@v4
      #   with:
