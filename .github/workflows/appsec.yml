@@ -56,10 +56,10 @@ jobs:
 
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
-           snyk code test --sarif  > results.sarif || true
+           snyk code test --sarif  > sast.sarif || true
       - name: Replace level note/warning/error for SAST findings
         run: | 
-           sed -i 's/"level": "note"/"level": "informational"/g' opensource.sarif && sed -i 's/"level": "warning"/"level": "medium"/g' opensource.sarif && sed -i 's/"level": "error"/"level": "high"/g' opensource.sarif
+           sed -i 's/"level": "note"/"level": "informational"/g' sast.sarif && sed -i 's/"level": "warning"/"level": "medium"/g' sast.sarif && sed -i 's/"level": "error"/"level": "high"/g' sast.sarif
      # - name: Checkout Prioritization Script
      #   uses: actions/checkout@v4
      #   with:
