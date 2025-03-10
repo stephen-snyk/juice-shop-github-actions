@@ -45,9 +45,6 @@ jobs:
       - name: Snyk Open Source # For testing and failing please add snyk test before snyk monitor
         run: |
           snyk test --all-projects --sarif > opensource.sarif || true
-      - name: Install jq
-        run: |
-          apt-get install -y jq
 
       - name: Replace security-severity undefined for license-related findings
         run: | 
