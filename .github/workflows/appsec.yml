@@ -56,7 +56,7 @@ jobs:
 
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
-           snyk code test --sarif  > sast.sarif || true
+           snyk code test --sarif  > snykcode.sarif || true
       - name: Replace level note/warning/error for SAST findings
         run: | 
            jq '
