@@ -47,7 +47,9 @@ jobs:
           snyk test --all-projects --sarif > opensource.sarif || true
       - name: Replace security-severity undefined for license-related findings
         run: | 
-           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' opensource.sarif
+          # sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' opensource.sarif
+           jq '.runs[].results |= map(if .["security-severity"] == "undefined" then .["security-severity"] = "7" else . end)' opensource.sarif > tmp.sarif && mv tmp.sarif opensource.sarif
+
 
      #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
