@@ -105,7 +105,7 @@ jobs:
       - name: Upload Code SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: sast.sarif
+          sarif_file: snykcode.sarif
       - name: Upload Open Source SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
