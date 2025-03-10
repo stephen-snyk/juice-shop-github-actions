@@ -48,7 +48,7 @@ jobs:
 
       - name: Replace security-severity undefined for license-related findings
         run: | 
-           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' opensource.sarif
+           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' sca.sarif
      #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
         run: |  
@@ -93,8 +93,8 @@ jobs:
       - name: Upload Code SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: sast.sarif
       - name: Upload Open Source SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./opensource.sarif
+          sarif_file: sca.sarif
