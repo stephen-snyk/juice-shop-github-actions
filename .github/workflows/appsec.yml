@@ -63,14 +63,24 @@ jobs:
           jq '
             walk(
               if type == "object" and has("id") and has("defaultConfiguration") and .defaultConfiguration.level then
-               # Add security-severity to the rule itself, not inside defaultConfiguration
-                .["security-severity"] = (
-                  if .defaultConfiguration.level == "note" then "2"
-                   elif .defaultConfiguration.level == "warning" then "5" 
-                   elif .defaultConfiguration.level == "error" then "8"
-                   else "0"
-                 end
-               )
+                # Create or update properties bag with security-severity
+                if has("properties") then
+                  .properties += {"security-severity": (
+                    if .defaultConfiguration.level == "note" then "2"
+                    elif .defaultConfiguration.level == "warning" then "5" 
+                    elif .defaultConfiguration.level == "error" then "8"
+                    else "0"
+                    end
+                  )}
+                else
+                 . + {"properties": {"security-severity": (
+                    if .defaultConfiguration.level == "note" then "2"
+                    elif .defaultConfiguration.level == "warning" then "5" 
+                    elif .defaultConfiguration.level == "error" then "8"
+                    else "0"
+                    end
+                  )}}
+                end
               else .
               end
             )
