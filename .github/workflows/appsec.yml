@@ -42,6 +42,7 @@ jobs:
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
         run: |  
            snyk code test --json | snyk-to-html -o results-code.html
+           pwd && ls -la
       - name: Snyk Open Source # For testing and failing please add snyk test before snyk monitor
         run: |
           snyk test --all-projects --sarif > snykopensource.sarif || true 
