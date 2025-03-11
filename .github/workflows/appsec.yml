@@ -60,20 +60,21 @@ jobs:
 
       - name: Replace level note/warning/error for SAST findings
         run: | 
-          jq '.' snykcode.sarif > formatted.sarif && \
           jq '
             walk(
-              if type == "object" and has("level") then
-                if .level == "note" then . + {"security-severity": "2"}
-                elif .level == "warning" then . + {"security-severity": "5"}
-                elif .level == "error" then . + {"security-severity": "8"}
-                else .
-                end
+              if type == "object" and has("id") and has("defaultConfiguration") and .defaultConfiguration.level then
+               # Add security-severity to the rule itself, not inside defaultConfiguration
+                .["security-severity"] = (
+                  if .defaultConfiguration.level == "note" then "2"
+                   elif .defaultConfiguration.level == "warning" then "5" 
+                   elif .defaultConfiguration.level == "error" then "8"
+                   else "0"
+                 end
+               )
               else .
               end
             )
-          ' formatted.sarif > snykcode_updated.sarif && \
-          mv snykcode_updated.sarif snykcode.sarif
+          ' snykcode.sarif > snykcode_updated.sarif && mv snykcode_updated.sarif snykcode.sarif
       #     sed -i 's/"level": "note"/"level": "informational"/g' sast.sarif && sed -i 's/"level": "warning"/"level": "medium"/g' sast.sarif && sed -i 's/"level": "error"/"level": "high"/g' sast.sarif
      # - name: Checkout Prioritization Script
      #   uses: actions/checkout@v4
