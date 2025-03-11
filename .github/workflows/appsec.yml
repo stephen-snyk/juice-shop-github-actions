@@ -35,8 +35,6 @@ jobs:
              npm install
       - run: npm i -g snyk
       - run: snyk auth ${{ secrets.SNYK_TOKEN }}
-
-
       - name: install snyk-to-html
         run: |
           npm install snyk-to-html -g
@@ -48,10 +46,10 @@ jobs:
       - name: Replace security-severity undefined for license-related findings
         run: | 
            sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' snykopensource.sarif
-     #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
+     #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-github-actions@main" --org=a063b5a1-3229-43e9-8aee-2c0c53699cbd  || true
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
         run: |  
-           snyk code test --json | snyk-to-html -o results-code.html || true
+           snyk code test --json | snyk-to-html -o results-code.html
 
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
