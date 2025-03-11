@@ -6,7 +6,7 @@ permissions:
 
 on:
   push:
-    branches: [ FR-sarif ]
+    branches: [ FR-codesarif ]
   #pull_request:
   #  branches: [ main ]
 
@@ -57,7 +57,7 @@ jobs:
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
            snyk code test --sarif  > snykcode.sarif || true
-           
+
       - name: Replace level note/warning/error for SAST findings
         run: | 
           jq '.' snykcode.sarif > formatted.sarif && \
