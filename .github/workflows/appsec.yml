@@ -40,15 +40,14 @@ jobs:
       - name: install snyk-to-html
         run: |
           npm install snyk-to-html -g
-      #    snyk test --json | snyk-to-html -o result.html
 
       - name: Snyk Open Source # For testing and failing please add snyk test before snyk monitor
         run: |
-          snyk test --all-projects --sarif > sca.sarif || true 
+          snyk test --all-projects --sarif > snykopensource.sarif || true 
 
       - name: Replace security-severity undefined for license-related findings
         run: | 
-           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' sca.sarif
+           sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' snykopensource.sarif
      #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-bash@main" --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
         run: |  
@@ -85,22 +84,7 @@ jobs:
               end
             )
           ' snykcode.sarif > snykcode_updated.sarif && mv snykcode_updated.sarif snykcode.sarif
-      #     sed -i 's/"level": "note"/"level": "informational"/g' sast.sarif && sed -i 's/"level": "warning"/"level": "medium"/g' sast.sarif && sed -i 's/"level": "error"/"level": "high"/g' sast.sarif
-     # - name: Checkout Prioritization Script
-     #   uses: actions/checkout@v4
-     #   with:
-     #     repository: joeshope/sarif_script
-     # - name: Change Severity
-     #   run: python example.py --file opensource.sarif
-     # - name: Set SARIF file permissions
-     #   run: chmod 644 results.sarif
-
-     # - name: Check SARIF file size
-     #   run: |
-     #     if [ ! -s results.sarif ]; then
-     #     echo "SARIF file is empty or invalid"; exit 1
-     #       fi
-      
+  
       #- name: Snyk IaC # Remove || true to fail if there are vulnerabilities
       #  run: |
       #   snyk iac test --report --org=8732cc6d-085e-4f1d-ba98-cf4b491723fb || true
@@ -123,4 +107,4 @@ jobs:
       - name: Upload Open Source SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: sca.sarif
+          sarif_file: snykopensource.sarif
