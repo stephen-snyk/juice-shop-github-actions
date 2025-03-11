@@ -39,6 +39,9 @@ jobs:
         run: |
           npm install snyk-to-html -g
 
+      - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
+        run: |  
+           snyk code test --json | snyk-to-html -o results-code.html
       - name: Snyk Open Source # For testing and failing please add snyk test before snyk monitor
         run: |
           snyk test --all-projects --sarif > snykopensource.sarif || true 
@@ -47,10 +50,7 @@ jobs:
         run: | 
            sed -i 's/"security-severity": "undefined"/"security-severity": "7"/g' snykopensource.sarif
      #       snyk monitor --all-projects --project-business-criticality=critical --project-tags="component=pkg:juice-shop-github-actions@main" --org=a063b5a1-3229-43e9-8aee-2c0c53699cbd  || true
-      - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
-        run: |  
-           snyk code test --json | snyk-to-html -o results-code.html
-           cat  results-code.html
+
 
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
