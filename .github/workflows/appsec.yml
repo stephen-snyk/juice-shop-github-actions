@@ -50,6 +50,7 @@ jobs:
       - name: Snyk Code HTML # Remove || true to fail if there are vulnerabilities
         run: |  
            snyk code test --json | snyk-to-html -o results-code.html
+           cat  results-code.html
 
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
