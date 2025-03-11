@@ -104,6 +104,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snykcode.sarif
+          if-no-files-found: error
       - name: Upload Open Source SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
