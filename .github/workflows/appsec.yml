@@ -57,20 +57,23 @@ jobs:
       - name: Snyk Code SARIF # Remove || true to fail if there are vulnerabilities
         run: |  
            snyk code test --sarif  > snykcode.sarif || true
+           
       - name: Replace level note/warning/error for SAST findings
         run: | 
-           jq '
+          jq '.' snykcode.sarif > formatted.sarif && \
+          jq '
             walk(
-              if type == "object" then
-                if .level == "note" then .level = "informational" 
-                elif .level == "warning" then .level = "medium" 
-                elif .level == "error" then .level = "high"
+              if type == "object" and has("level") then
+                if .level == "note" then . + {"security-severity": "2"}
+                elif .level == "warning" then . + {"security-severity": "5"}
+                elif .level == "error" then . + {"security-severity": "8"}
                 else .
                 end
               else .
               end
-             )
-           ' snykcode.sarif > snykcode_updated.sarif && mv snykcode_updated.sarif sast.sarif
+            )
+          ' formatted.sarif > snykcode_updated.sarif && \
+          mv snykcode_updated.sarif snykcode.sarif
       #     sed -i 's/"level": "note"/"level": "informational"/g' sast.sarif && sed -i 's/"level": "warning"/"level": "medium"/g' sast.sarif && sed -i 's/"level": "error"/"level": "high"/g' sast.sarif
      # - name: Checkout Prioritization Script
      #   uses: actions/checkout@v4
